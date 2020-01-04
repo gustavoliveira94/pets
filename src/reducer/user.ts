@@ -3,7 +3,10 @@ import { GET_AUTH, SET_LOGIN } from '../constants';
 
 const initialState: IAuth | IUser = {
     auth: [],
-    user: [],
+    user: {
+        authenticate: false,
+        data: [],
+    },
 };
 
 export const userReducer = (
@@ -13,11 +16,13 @@ export const userReducer = (
     switch (action.type) {
         case GET_AUTH:
             return {
-                auth: {...state , auth: action.data},
+                ...state,
+                auth: action.data,
             };
         case SET_LOGIN:
             return {
-                user: {...state, user: action.data},
+                ...state,
+                user: action.data,
             };
         default:
             return state;

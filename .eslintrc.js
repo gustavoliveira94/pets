@@ -36,6 +36,16 @@ module.exports = {
         { "extensions": [".ts", ".tsx"] }],
         "@typescript-eslint/explicit-function-return-type": "off",
         "import/prefer-default-export": "off",
-        "prefixWithI": "always",
+        "@typescript-eslint/interface-name-prefix": [
+            "error",
+            {
+                "prefixWithI": "always"
+            }
+        ],
+        "@typescript-eslint/camelcase": "off",
+        "no-console": ["error", { allow: ["log"] }],
+        "@typescript-eslint/no-explicit-any": "off",
+        "import/extensions": "off",
+        "import/no-unresolved": "off",
     }
 };

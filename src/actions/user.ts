@@ -10,7 +10,7 @@ export const getAuth = () => {
 
             dispatch({
                 type: GET_AUTH,
-                data: result.data.data.access_key,
+                data: result.data.data,
             });
         } catch (e) {
             console.log(e);
@@ -23,21 +23,24 @@ export const login = (email: string, password: string) => {
         try {
             const token = getState();
 
-            console.log(token.user.auth.auth)
-
-            const result = await api.post('auth/session-register', {
-                organization_user: {
-                    'email': email, 'password': password
+            const result = await api.post(
+                'auth/session-register',
+                {
+                    organization_user: {
+                        email,
+                        password,
+                    },
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token.user.auth.access_key}`,
+                    },
                 }
-            }, {
-                headers: {
-                    Authorization: `Bearer ${token.user.auth.auth}`,
-                }
-            });
+            );
 
             dispatch({
                 type: SET_LOGIN,
-                data: result.data.data,
+                data: { authenticate: true, data: result.data.data },
             });
         } catch (e) {
             console.log(e);

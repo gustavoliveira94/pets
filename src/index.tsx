@@ -1,21 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { persistStore, persistReducer } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
+import storage from 'redux-persist/lib/storage';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import Global from './styles/global';
 
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-
 import reducers from './reducer';
 
-const store = createStore(reducers, applyMiddleware(thunk));
+const persistConfig = {
+    key: 'root',
+    storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, reducers);
+
+const store: any = createStore(persistedReducer, applyMiddleware(thunk));
+
+const persistor = persistStore(store);
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
-        <Global />
+        <PersistGate persistor={persistor} loading={null}>
+            <App />
+            <Global />
+        </PersistGate>
     </Provider>,
     document.getElementById('root')
 );

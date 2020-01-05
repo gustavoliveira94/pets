@@ -3,12 +3,17 @@
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Row, PageHeader, Layout, Card, Col, Pagination } from 'antd';
+import { Row, PageHeader, Layout, Col, Pagination, Button } from 'antd';
 import 'antd/dist/antd.css';
 
+// Actions
 import { getPets } from '../actions/pets';
+import { logOut } from '../actions/user';
 
+// Components
 import Filter from '../components/filter';
+import Pets from '../components/pets';
+import Order from '../components/order';
 
 interface IRootState {
     user?: any;
@@ -18,15 +23,24 @@ interface IRootState {
 
 const Main: React.FC<IRootState> = () => {
     const dispatch = useDispatch();
-    const auth = (user: IRootState) => user.user;
-    const authenticated = useSelector(auth);
     const petlist = (pets: IRootState) => pets.pets;
     const petslist = useSelector(petlist);
+    const auth = (user: IRootState) => user.user;
+    const authenticated = useSelector(auth);
 
-    const [state, setState] = useState({ sex: '', size: '', age: '', page: 1 });
+    const [state, setState] = useState({
+        sex: '',
+        size: '',
+        age: '',
+        page: 1,
+        order: '',
+        visible: false,
+    });
 
     useEffect(() => {
-        dispatch(getPets(state.sex, state.age, state.size, state.page));
+        dispatch(
+            getPets(state.sex, state.age, state.size, state.page, state.order)
+        );
     }, [dispatch, state]);
 
     const onChange = (page: number) => {
@@ -37,8 +51,6 @@ const Main: React.FC<IRootState> = () => {
         return <Redirect to="/login" />;
     }
 
-    console.log(state);
-
     return (
         <Layout style={{ height: '100%' }}>
             <Row>
@@ -46,67 +58,62 @@ const Main: React.FC<IRootState> = () => {
                     style={{
                         display: 'flex',
                         alignItems: 'center',
-                        borderBottom: '2px solid rgb(235, 237, 240)',
+                        borderBottom: '2px solid rgb(224, 226, 228)',
                         paddingBottom: 15,
                     }}
                     backIcon={false}
                     title="Pets"
+                    extra={[
+                        <span key="0">
+                            {`Olá, ${authenticated.user.data.organization_user.first_name} ${authenticated.user.data.organization_user.last_name}`}
+                        </span>,
+                        <Button
+                            onClick={() => dispatch(logOut())}
+                            key="1"
+                            type="link"
+                        >
+                            Log out
+                        </Button>,
+                    ]}
                 />
             </Row>
-            <Filter
-                size={state.size}
-                getSex={(sex: string) => setState({ ...state, sex })}
-                getSize={(size: string) => setState({ ...state, size })}
-                getAge={(age: string) => setState({ ...state, age })}
-                reset={() => setState({ ...state, age: '', size: '', sex: '' })}
-            />
-            <Row
-                row-flex="true"
-                style={{
-                    height: 'calc(100% - 66px)',
-                    padding: 40,
-                    overflowY: 'scroll',
-                }}
-            >
-                <Col
-                    span={24}
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        flexWrap: 'wrap',
-                        padding: 20,
-                    }}
+            {state.visible ? (
+                <>
+                    <Filter
+                        getSex={(sex: string) =>
+                            setState({ ...state, sex, size: '', age: '' })
+                        }
+                        getSize={(size: string) =>
+                            setState({ ...state, size, sex: '', age: '' })
+                        }
+                        getAge={(age: string) =>
+                            setState({ ...state, age, sex: '', size: '' })
+                        }
+                        reset={() =>
+                            setState({ ...state, age: '', size: '', sex: '' })
+                        }
+                    />
+                    <Order
+                        setName={(name: string) =>
+                            setState({ ...state, order: name })
+                        }
+                    />
+                    <Button
+                        onClick={() => setState({ ...state, visible: false })}
+                        type="link"
+                    >
+                        Close options
+                    </Button>
+                </>
+            ) : (
+                <Button
+                    onClick={() => setState({ ...state, visible: true })}
+                    type="link"
                 >
-                    {petslist &&
-                        petslist.pets.result.map((pet: any) => (
-                            <Card
-                                key={pet.name}
-                                title={pet.name}
-                                style={{
-                                    minWidth: 200,
-                                    width: 300,
-                                    margin: 20,
-                                }}
-                            >
-                                <p>
-                                    <b>Specie:</b> {pet.specie.name}
-                                </p>
-                                <p>
-                                    <b>Breed:</b> {pet.breed_primary.name}
-                                </p>
-                                <p>
-                                    <b>Age:</b> {pet.age_key}
-                                </p>
-                                <p>
-                                    <b>Sex:</b> {pet.sex_key}
-                                </p>
-                                <p>
-                                    <b>Size:</b> {pet.size_key}
-                                </p>
-                            </Card>
-                        ))}
-                </Col>
-            </Row>
+                    More options
+                </Button>
+            )}
+            <Pets />
             <Row>
                 <Col
                     span={24}
@@ -119,7 +126,7 @@ const Main: React.FC<IRootState> = () => {
                     }}
                 >
                     <Pagination
-                        total={petslist.pets.pages * 10}
+                        total={petslist.pets && petslist.pets.pages * 10}
                         current={state.page}
                         onChange={onChange}
                     />

@@ -32,6 +32,8 @@ const Login: React.FC<IRootState> = () => {
         return <Redirect to="/main" />;
     }
 
+    console.log(authenticated);
+
     return (
         <Layout style={{ height: '100%' }}>
             <Row>

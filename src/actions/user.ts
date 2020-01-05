@@ -1,4 +1,4 @@
-import { GET_AUTH, SET_LOGIN } from '../constants';
+import { GET_AUTH, SET_LOGIN, SET_LOGOUT } from '../constants';
 import { api } from '../services/api';
 
 export const getAuth = () => {
@@ -41,6 +41,19 @@ export const login = (email: string, password: string) => {
             dispatch({
                 type: SET_LOGIN,
                 data: { authenticate: true, data: result.data.data },
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    };
+};
+
+export const logOut = () => {
+    return (dispatch: any) => {
+        try {
+            dispatch({
+                type: SET_LOGOUT,
+                data: { authenticate: false },
             });
         } catch (e) {
             console.log(e);

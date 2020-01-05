@@ -5,11 +5,11 @@ export const getPets = (
     sex: string,
     age: string,
     size: string,
-    page: number
+    page: number,
+    order: string
 ) => {
     return async (dispatch: any, getState: any) => {
         try {
-            console.log(sex, age, size);
             const token = getState();
 
             const result = await api.post(
@@ -54,7 +54,7 @@ export const getPets = (
                     },
                     options: {
                         page,
-                        sort: [],
+                        sort: order ? [order] : [],
                     },
                 },
                 {

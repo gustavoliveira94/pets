@@ -13,15 +13,7 @@ interface IFilters {
     reset?: any;
 }
 
-const Filter: React.FC<IFilters> = ({
-    size,
-    getSex,
-    getSize,
-    getAge,
-    reset,
-}) => {
-    console.log(size);
-
+const Filter: React.FC<IFilters> = ({ getSex, getSize, getAge, reset }) => {
     return (
         <Row>
             <Col
@@ -30,11 +22,13 @@ const Filter: React.FC<IFilters> = ({
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
+                    flexDirection: 'column',
                     flexWrap: 'wrap',
                     paddingLeft: 20,
                     paddingRight: 20,
                 }}
             >
+                <h3>Filter:</h3>
                 <div key="20">
                     <span key="0">Sex:</span>
                     <Button
@@ -51,8 +45,6 @@ const Filter: React.FC<IFilters> = ({
                     >
                         FEMALE
                     </Button>
-                </div>
-                <div key="30">
                     <span key="0">Size:</span>
                     <Button
                         onClick={() => getSize('S')}
@@ -82,8 +74,13 @@ const Filter: React.FC<IFilters> = ({
                     >
                         XL
                     </Button>
-                </div>
-                <div key="40">
+                    <Button
+                        onClick={() => getSize('XS')}
+                        style={{ margin: 8 }}
+                        key="5"
+                    >
+                        XS
+                    </Button>
                     <span key="0">Age:</span>
                     <Button
                         onClick={() => getAge('BABY')}
@@ -113,8 +110,6 @@ const Filter: React.FC<IFilters> = ({
                     >
                         SENIOR
                     </Button>
-                </div>
-                <div key="50">
                     <Button
                         type="link"
                         onClick={() => reset()}

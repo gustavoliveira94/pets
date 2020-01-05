@@ -2,7 +2,6 @@ import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
    * {
-        overflow: hidden;
         outline: 0;
         box-sizing: border-box;
    }

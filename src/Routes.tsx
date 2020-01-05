@@ -10,15 +10,16 @@ import Main from './pages/main';
 
 interface IRoutePrivate {
     path?: string;
-    component: React.FunctionComponent;
+    component: React.FunctionComponent | any;
     exact?: boolean;
+    user?: any;
 }
 
 const PrivateRoute: React.FC<IRoutePrivate> = ({
     component: Component,
     ...rest
 }) => {
-    const auth = (user: IRootState) => user.user;
+    const auth = (user: IRoutePrivate) => user.user;
     const authenticated = useSelector(auth);
     return (
         <Route
@@ -39,11 +40,7 @@ const PrivateRoute: React.FC<IRoutePrivate> = ({
     );
 };
 
-interface IRootState {
-    user?: any;
-}
-
-const Routes: React.FC<IRootState> = () => {
+const Routes: React.FC = () => {
     return (
         <BrowserRouter basename={process.env.PUBLIC_URL}>
             <Switch>

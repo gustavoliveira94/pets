@@ -44,8 +44,8 @@ const Routes: React.FC = () => {
     return (
         <BrowserRouter basename={process.env.PUBLIC_URL}>
             <Switch>
-                <Route path="/login" exact component={Login} />
-                <PrivateRoute path="/main" exact component={Main} />
+                <Route path="/login" component={Login} />
+                <PrivateRoute path="/" component={Main} />
             </Switch>
         </BrowserRouter>
     );

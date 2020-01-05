@@ -1,5 +1,5 @@
 import { IAuth, IAuthAction, IUser, IUserAction } from '../types';
-import { GET_AUTH, SET_LOGIN } from '../constants';
+import { GET_AUTH, SET_LOGIN, SET_LOGOUT } from '../constants';
 
 const initialState: IAuth | IUser = {
     auth: [],
@@ -20,6 +20,11 @@ export const userReducer = (
                 auth: action.data,
             };
         case SET_LOGIN:
+            return {
+                ...state,
+                user: action.data,
+            };
+        case SET_LOGOUT:
             return {
                 ...state,
                 user: action.data,

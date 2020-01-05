@@ -1,4 +1,4 @@
-import { GET_AUTH, SET_LOGIN, GET_PETS } from '../constants';
+import { GET_AUTH, SET_LOGIN, GET_PETS, SET_LOGOUT } from '../constants';
 
 export interface IAuth {
     auth: object;
@@ -14,7 +14,7 @@ export interface IUser {
 }
 
 export interface IUserAction {
-    type: typeof SET_LOGIN;
+    type: typeof SET_LOGIN | typeof SET_LOGOUT;
     data: IUser;
 }
 

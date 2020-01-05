@@ -64,8 +64,6 @@ export const getPets = (
                 }
             );
 
-            console.log(result);
-
             dispatch({
                 type: GET_PETS,
                 data: result.data.data,

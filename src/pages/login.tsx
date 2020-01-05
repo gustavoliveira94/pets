@@ -28,7 +28,7 @@ const Login: React.FC<IRootState> = () => {
         dispatch(getAuth());
     }, [dispatch, setLogin]);
 
-    if (authenticated.user.authenticate) {
+    if (authenticated && authenticated.user.authenticate) {
         return <Redirect to="/main" />;
     }
 
@@ -63,6 +63,7 @@ const Login: React.FC<IRootState> = () => {
                                         style={{ color: 'rgba(0,0,0,.25)' }}
                                     />
                                 }
+                                data-testid="email"
                                 placeholder="Username"
                                 onChange={(
                                     event: React.ChangeEvent<HTMLInputElement>
@@ -82,6 +83,7 @@ const Login: React.FC<IRootState> = () => {
                                         style={{ color: 'rgba(0,0,0,.25)' }}
                                     />
                                 }
+                                data-testid="password"
                                 type="password"
                                 placeholder="Password"
                                 onChange={(
@@ -99,6 +101,7 @@ const Login: React.FC<IRootState> = () => {
                                 type="primary"
                                 htmlType="submit"
                                 className="login-form-button"
+                                data-testid="login"
                                 onClick={() =>
                                     setLogin(state.email, state.password)
                                 }

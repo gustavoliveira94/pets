@@ -21,44 +21,47 @@ const Pets: React.FC = () => {
                 overflowY: 'scroll',
             }}
         >
-            <Col
-                span={24}
-                style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    flexWrap: 'wrap',
-                    padding: 20,
-                }}
-            >
-                {petslist.pets &&
-                    petslist.pets.result &&
-                    petslist.pets.result.map((pet: any) => (
-                        <Card
-                            key={pet.name}
-                            title={pet.name}
-                            style={{
-                                minWidth: 200,
-                                width: 300,
-                                margin: 20,
-                            }}
-                        >
-                            <p>
-                                <b>Specie:</b> {pet.specie.name}
-                            </p>
-                            <p>
-                                <b>Breed:</b> {pet.breed_primary.name}
-                            </p>
-                            <p>
-                                <b>Age:</b> {pet.age_key}
-                            </p>
-                            <p>
-                                <b>Sex:</b> {pet.sex_key}
-                            </p>
-                            <p>
-                                <b>Size:</b> {pet.size_key}
-                            </p>
-                        </Card>
-                    ))}
+            <Col span={24}>
+                <ul
+                    data-testid="pets"
+                    style={{
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        flexWrap: 'wrap',
+                        padding: 20,
+                    }}
+                >
+                    {petslist &&
+                        petslist.pets.result &&
+                        petslist.pets.result.map((pet: any) => (
+                            <Card
+                                key={pet.name}
+                                title={pet.name}
+                                style={{
+                                    minWidth: 200,
+                                    width: 300,
+                                    margin: 20,
+                                }}
+                            >
+                                <p>
+                                    <b>Specie:</b> {pet.specie.name}
+                                </p>
+                                <p>
+                                    <b>Breed:</b> {pet.breed_primary.name}
+                                </p>
+                                <p>
+                                    <b>Age:</b> {pet.age_key}
+                                </p>
+                                <p>
+                                    <b>Sex:</b> {pet.sex_key}
+                                </p>
+                                <p>
+                                    <b>Size:</b> {pet.size_key}
+                                </p>
+                            </Card>
+                        ))}
+                </ul>
             </Col>
         </Row>
     );

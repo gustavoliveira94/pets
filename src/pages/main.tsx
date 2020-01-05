@@ -47,9 +47,11 @@ const Main: React.FC<IRootState> = () => {
         setState({ ...state, page });
     };
 
-    if (!authenticated.user.authenticate) {
+    if (authenticated && !authenticated.user.authenticate) {
         return <Redirect to="/login" />;
     }
+
+    console.log(authenticated);
 
     return (
         <Layout style={{ height: '100%' }}>
@@ -65,7 +67,11 @@ const Main: React.FC<IRootState> = () => {
                     title="Pets"
                     extra={[
                         <span key="0">
-                            {`Olá, ${authenticated.user.data.organization_user.first_name} ${authenticated.user.data.organization_user.last_name}`}
+                            {`Olá, ${authenticated &&
+                                authenticated.user.data.organization_user
+                                    .first_name} ${authenticated &&
+                                authenticated.user.data.organization_user
+                                    .last_name}`}
                         </span>,
                         <Button
                             onClick={() => dispatch(logOut())}
@@ -126,7 +132,7 @@ const Main: React.FC<IRootState> = () => {
                     }}
                 >
                     <Pagination
-                        total={petslist.pets && petslist.pets.pages * 10}
+                        total={petslist && petslist.pets.pages * 10}
                         current={state.page}
                         onChange={onChange}
                     />
